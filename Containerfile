@@ -1,6 +1,7 @@
 # Nvidia drivers from bazzite
 FROM ghcr.io/bazzite-org/kernel-bazzite:latest-f43-x86_64 AS kernel
 FROM ghcr.io/bazzite-org/nvidia-drivers:580.95.05-f43-x86_64 as nvidia
+FROM ghcr.io/get-aurora-dev/common:latest AS aurora-common
 
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
@@ -9,6 +10,10 @@ COPY system_files /system_files/desktop
 
 # Base Image
 FROM ghcr.io/ublue-os/kinoite-main:latest
+
+### Get files from aurora
+COPY --from=aurora-common /system_files/shared /
+COPY --from=aurora-common /wallpapers /
 
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
