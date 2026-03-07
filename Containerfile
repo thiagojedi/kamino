@@ -2,19 +2,30 @@
 FROM scratch AS ctx
 COPY build_files /
 
+# NVidia drivers from bazzite
+FROM ghcr.io/bazzite-org/nvidia-drivers:latest-f43-x86_64 as nvidia
+
 # Base Image
-FROM ghcr.io/ublue-os/kinoite-nvidia:latest
+FROM ghcr.io/ublue-os/kinoite-main:latest
 
-### [IM]MUTABLE /opt
-## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
-## make it mutable/writable for users. However, some packages write files to this directory,
-## thus its contents might be wiped out when bootc deploys an image, making it troublesome for
-## some packages. Eg, google-chrome, docker-desktop.
-##
-## Uncomment the following line if one desires to make /opt immutable and be able to be used
-## by the package manager.
+### Install NVIDIA driver
+## this is the same script used by Bazzite 
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    --mount=type=secret,id=GITHUB_TOKEN \
+    --mount=type=bind,from=nvidia,src=/,dst=/rpms/nvidia \
+    dnf5 -y copr enable ublue-os/staging && \
+    dnf5 -y install \
+        egl-wayland.x86_64 \
+        egl-wayland.i686 && \
+    /ctx/install-nvidia && \
+    rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json && \
+    ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so && \
+    dnf5 -y copr disable ublue-os/staging && \
+    /ctx/cleanup
 
-# RUN rm /opt && mkdir /opt
 
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
