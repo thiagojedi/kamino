@@ -9,11 +9,11 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-
+# dnf5 -y install tmux
 
 #### Example for enabling a System Unit File
 
 # systemctl enable podman.socket
 
 # Copy system files
-rsync -rvKl /ctx/system_files/shared/ /
+# rsync -rvKl /ctx/system_files/shared/ /
