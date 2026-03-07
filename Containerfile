@@ -2,12 +2,8 @@
 FROM scratch AS ctx
 COPY build_files /
 
-# NVidia drivers from bazzite
-# FROM ghcr.io/bazzite-org/nvidia-drivers:latest-f43-x86_64 as nvidia
-
 # Base Image
-FROM ghcr.io/ublue-os/konite-main:latest
-
+FROM ghcr.io/ublue-os/kinoite-nvidia:latest
 
 ### [IM]MUTABLE /opt
 ## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
