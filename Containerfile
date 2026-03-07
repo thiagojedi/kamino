@@ -9,9 +9,9 @@ FROM scratch AS ctx
 COPY build_files /
 
 # /* https://github.com/get-aurora-dev/common */
-COPY --from=common /logos /system_files/shared
-COPY --from=common /system_files /system_files
-COPY --from=common /wallpapers /system_files/shared
+COPY --from=aurora-common /logos /system_files/shared
+COPY --from=aurora-common /system_files /system_files
+COPY --from=aurora-common /wallpapers /system_files/shared
 
 # /* https://github.com/ublue-os/brew */
 COPY --from=brew /system_files /system_files/shared
