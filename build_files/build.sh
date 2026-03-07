@@ -16,4 +16,4 @@ set -ouex pipefail
 # systemctl enable podman.socket
 
 # Copy system files
-rsync -rvK /ctx/system_files/desktop/ /
+rsync -rvKl /ctx/system_files/shared/ /
