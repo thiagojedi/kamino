@@ -6,6 +6,7 @@ FROM ghcr.io/ublue-os/brew:latest as brew
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
+COPY system_files /system_files/desktop
 COPY --from=brew /system_files /system_files/shared
 
 # Base Image

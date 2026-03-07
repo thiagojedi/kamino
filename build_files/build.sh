@@ -22,5 +22,7 @@ dnf5 -y copr disable ublue-os/packages
 
 systemctl enable podman.socket
 
+# Copy system files
+rsync -rvK /ctx/system_files/desktop/ /
 # Copy system files from upstream
 rsync -rvK /ctx/system_files/shared/ /
