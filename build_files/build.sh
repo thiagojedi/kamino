@@ -14,6 +14,7 @@ set -ouex pipefail
 
 dnf5 -y copr enable ublue-os/packages
 dnf5 -y install \
+    ptyxis \
     bazaar \
     krunner-bazaar
 dnf5 -y copr disable ublue-os/packages
@@ -23,6 +24,6 @@ dnf5 -y copr disable ublue-os/packages
 systemctl enable podman.socket
 
 # Copy system files
-# rsync -rvK /ctx/system_files/desktop/ /
+rsync -rvK /ctx/system_files/desktop/ /
 # Copy system files from upstream
 rsync -rvK /ctx/system_files/shared/ /
