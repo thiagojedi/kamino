@@ -1,15 +1,30 @@
+# NVidia drivers from bazzite
+FROM ghcr.io/bazzite-org/nvidia-drivers:latest-f43-x86_64 as nvidia
+
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
 
-# NVidia drivers from bazzite
-FROM ghcr.io/bazzite-org/nvidia-drivers:latest-f43-x86_64 as nvidia
-
 # Base Image
-FROM ghcr.io/ublue-os/kinoite-main:latest
+FROM ghcr.io/ublue-os/kinoite-nvidia:latest
 
 ### Install NVIDIA driver
-## this is the same script used by Bazzite 
+## this is the same script used by Bazzite
+
+# Remove everything that doesn't work well with NVIDIA, unset skip_if_unavailable option if was set beforehand
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    dnf5 config-manager unsetopt skip_if_unavailable && \
+    dnf5 -y remove \
+        nvidia-gpu-firmware \
+        rocm-hip \
+        rocm-opencl \
+        rocm-clinfo \
+        rocm-smi && \
+    /ctx/cleanup
+
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=bind,from=ctx,source=/,target=/ctx \
