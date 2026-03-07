@@ -1,12 +1,12 @@
-# NVidia drivers from bazzite
-FROM ghcr.io/bazzite-org/nvidia-drivers:latest-f43-x86_64 as nvidia
+# Nvidia drivers from bazzite
+FROM ghcr.io/bazzite-org/nvidia-drivers:580.95.05-f43-x86_64 as nvidia
 # Homebrew
 FROM ghcr.io/ublue-os/brew:latest as brew
 
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
-COPY system_files /system_files/desktop
+# COPY system_files /system_files/desktop
 COPY --from=brew /system_files /system_files/shared
 
 # Base Image
