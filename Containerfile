@@ -67,21 +67,21 @@ RUN --mount=type=cache,dst=/var/cache \
         rocm-smi && \
     /ctx/cleanup
 
-# RUN --mount=type=cache,dst=/var/cache \
-#     --mount=type=cache,dst=/var/log \
-#     --mount=type=bind,from=ctx,source=/,target=/ctx \
-#     --mount=type=tmpfs,dst=/tmp \
-#     --mount=type=secret,id=GITHUB_TOKEN \
-#     --mount=type=bind,from=nvidia,src=/,dst=/rpms/nvidia \
-#     dnf5 -y copr enable ublue-os/staging && \
-#     dnf5 -y install \
-#         egl-wayland.x86_64 \
-#         egl-wayland.i686 && \
-#     /ctx/install-nvidia && \
-#     rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json && \
-#     ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so && \
-#     dnf5 -y copr disable ublue-os/staging && \
-#     /ctx/cleanup
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    --mount=type=secret,id=GITHUB_TOKEN \
+    --mount=type=bind,from=nvidia,src=/,dst=/rpms/nvidia \
+    dnf5 -y copr enable ublue-os/staging && \
+    dnf5 -y install \
+        egl-wayland.x86_64 \
+        egl-wayland.i686 && \
+    /ctx/install-nvidia && \
+    rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json && \
+    ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so && \
+    dnf5 -y copr disable ublue-os/staging && \
+    /ctx/cleanup
 
 ### LINTING
 ## Verify final image and contents are correct.
