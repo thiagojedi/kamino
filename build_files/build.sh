@@ -4,9 +4,19 @@ set -ouex pipefail
 
 ### Install packages
 
-find /ctx/nvidia
+# Remove nvidia conflicting files
+dnf5 -y remove \
+    nvidia-gpu-firmware \
+    rocm-hip \
+    rocm-opencl \
+    rocm-clinfo \
+    rocm-smi
 
 AKMODNV_PATH=/ctx/nvidia/rpms IMAGE_NAME=kinoite /ctx/nvidia/rpms/ublue-os/nvidia-install.sh
+
+rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json
+
+ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so
 
 # Packages can be installed from any enabled yum repo on the image.
 # RPMfusion repos are available by default in ublue main images
