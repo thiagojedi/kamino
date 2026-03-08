@@ -14,7 +14,7 @@ COPY build_files /
 # COPY --from=aurora-common /wallpapers /system_files/shared
 
 # # /* https://github.com/ublue-os/brew */
-COPY --from=brew /system_files /system_files/shared
+# COPY --from=brew /system_files /system_files/shared
 
 COPY system_files /system_files/
 
