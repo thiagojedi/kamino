@@ -11,9 +11,10 @@ set -ouex pipefail
 
 # dnf5 -y install tmux
 
-#### Example for enabling a System Unit File
-
 # systemctl enable podman.socket
 
 # Copy system files
 rsync -rvKl /ctx/system_files/shared/ /
+
+# Enabling System Unit Files
+systemctl enable brew-setup.service
