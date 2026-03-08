@@ -12,7 +12,6 @@ COPY --from=nvidia / /nvidia
 
 COPY build_files /
 
-
 # # /* https://github.com/get-aurora-dev/common */
 # COPY --from=aurora-common /logos /system_files/shared
 # COPY --from=aurora-common /system_files /system_files
@@ -20,8 +19,6 @@ COPY build_files /
 
 # # /* https://github.com/ublue-os/brew */
 # COPY --from=brew /system_files /system_files/shared
-
-COPY system_files /system_files/
 
 # Base Image
 FROM ghcr.io/ublue-os/kinoite-main:latest
@@ -44,16 +41,6 @@ RUN --mount=type=cache,dst=/var/cache \
     /usr/bin/systemctl preset brew-setup.service && \
     /usr/bin/systemctl preset brew-update.timer && \
     /usr/bin/systemctl preset brew-upgrade.timer
-
-### Install NVIDIA driver
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    find /ctx/nvidia && \
-    dnf5 -y install nvidia-kmod-common
-    dnf5 -y install /ctx/nvidia/rpms/ublue-os/ublue-os-nvidia*.rpm && \
-    dnf5 -y install /ctx/nvidia/rpms/kmods/kmod-nvidia*.rpm
 
 ### LINTING
 ## Verify final image and contents are correct.

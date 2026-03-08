@@ -4,6 +4,10 @@ set -ouex pipefail
 
 ### Install packages
 
+find /ctx/nvidia
+
+AKMODNV_PATH=/ctx/nvidia/rpms IMAGE_NAME=kinoite /ctx/nvidia/rpms/ublue-os/nvidia-install.sh
+
 # Packages can be installed from any enabled yum repo on the image.
 # RPMfusion repos are available by default in ublue main images
 # List of rpmfusion packages can be found here:
@@ -16,4 +20,4 @@ set -ouex pipefail
 # systemctl enable podman.socket
 
 # Copy system files
-rsync -rvKl /ctx/system_files/shared/ /
+# rsync -rvKl /ctx/system_files/shared/ /
