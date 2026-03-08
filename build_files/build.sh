@@ -20,4 +20,4 @@ AKMODNV_PATH=/ctx/nvidia/rpms IMAGE_NAME=kinoite /ctx/nvidia/rpms/ublue-os/nvidi
 # systemctl enable podman.socket
 
 # Copy system files
-# rsync -rvKl /ctx/system_files/shared/ /
+rsync -rvKl /ctx/system_files/shared/ /
