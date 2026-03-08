@@ -1,12 +1,17 @@
 FROM ghcr.io/get-aurora-dev/common:latest AS aurora-common
 FROM ghcr.io/ublue-os/brew:latest as brew
 # Nvidia drivers from bazzite
-FROM ghcr.io/bazzite-org/kernel-bazzite:latest-f43-x86_64 AS kernel
-FROM ghcr.io/bazzite-org/nvidia-drivers:580.95.05-f43-x86_64 as nvidia
+# FROM ghcr.io/bazzite-org/kernel-bazzite:latest-f43-x86_64 AS kernel
+# FROM ghcr.io/bazzite-org/nvidia-drivers:580.95.05-f43-x86_64 as nvidia
+FROM ghcr.io/ublue-os/akmods-nvidia-lts:main-43 as nvidia
 
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
+
+COPY --from=nvidia / /nvidia
+
 COPY build_files /
+
 
 # # /* https://github.com/get-aurora-dev/common */
 # COPY --from=aurora-common /logos /system_files/shared
@@ -41,47 +46,14 @@ RUN --mount=type=cache,dst=/var/cache \
     /usr/bin/systemctl preset brew-upgrade.timer
 
 ### Install NVIDIA driver
-## this is the same script used by Bazzite
-
-RUN --mount=type=cache,dst=/var/cache \
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    --mount=type=bind,from=kernel,src=/,dst=/rpms/kernel \
-    --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/install-kernel && \
-    # dnf5 -y config-manager setopt "*rpmfusion*".enabled=0 && \
-    rm -rf /.git && \
-    /ctx/cleanup
-
-# Remove everything that doesn't work well with NVIDIA, unset skip_if_unavailable option if was set beforehand
-RUN --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=tmpfs,dst=/tmp \
-    dnf5 config-manager unsetopt skip_if_unavailable && \
-    dnf5 -y remove \
-        nvidia-gpu-firmware \
-        rocm-hip \
-        rocm-opencl \
-        rocm-clinfo \
-        rocm-smi && \
-    /ctx/cleanup
-
-RUN --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=tmpfs,dst=/tmp \
-    --mount=type=secret,id=GITHUB_TOKEN \
-    --mount=type=bind,from=nvidia,src=/,dst=/rpms/nvidia \
-    dnf5 -y copr enable ublue-os/staging && \
-    dnf5 -y install \
-        egl-wayland.x86_64 \
-        egl-wayland.i686 && \
-    /ctx/install-nvidia && \
-    rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json && \
-    ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so && \
-    dnf5 -y copr disable ublue-os/staging && \
-    /ctx/cleanup
+    find /ctx/nvidia && \
+    dnf5 -y install nvidia-kmod-common
+    dnf5 -y install /ctx/nvidia/rpms/ublue-os/ublue-os-nvidia*.rpm && \
+    dnf5 -y install /ctx/nvidia/rpms/kmods/kmod-nvidia*.rpm
 
 ### LINTING
 ## Verify final image and contents are correct.
