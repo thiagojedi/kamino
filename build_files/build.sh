@@ -15,8 +15,10 @@ dnf5 -y remove \
 AKMODNV_PATH=/ctx/nvidia/rpms IMAGE_NAME=kinoite /ctx/nvidia/rpms/ublue-os/nvidia-install.sh
 
 rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json
-
-ln -s libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so
+ln -sf libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so
+tee /usr/lib/bootc/kargs.d/00-nvidia.toml <<EOF
+kargs = ["rd.driver.blacklist=nouveau", "modprobe.blacklist=nouveau", "nvidia-drm.modeset=1", "initcall_blacklist=simpledrm_platform_driver_init"]
+EOF
 
 # Packages can be installed from any enabled yum repo on the image.
 # RPMfusion repos are available by default in ublue main images
