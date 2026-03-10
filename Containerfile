@@ -11,6 +11,8 @@ COPY --from=aurora-common /logos /system_files/shared
 COPY --from=aurora-common /system_files /system_files
 COPY --from=aurora-common /wallpapers /system_files/shared
 
+COPY --from=brew /system_files /system_files/shared
+
 COPY build_files /
 
 # Base Image
@@ -25,15 +27,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-
-### Install BREW
-COPY --from=brew /system_files /
-RUN --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /usr/bin/systemctl preset brew-setup.service && \
-    /usr/bin/systemctl preset brew-update.timer && \
-    /usr/bin/systemctl preset brew-upgrade.timer
 
 ### LINTING
 ## Verify final image and contents are correct.

@@ -18,4 +18,8 @@ set -ouex pipefail
 # Copy system files
 rsync -rvKl /ctx/system_files/shared/ /
 
+systemctl preset brew-setup.service
+systemctl preset brew-update.timer
+systemctl preset brew-upgrade.timer
+
 /ctx/install-nvidia.sh
