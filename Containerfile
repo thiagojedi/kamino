@@ -13,6 +13,8 @@ COPY --from=aurora-common /wallpapers /system_files/shared
 
 COPY --from=brew /system_files /system_files/shared
 
+COPY system_files /system_files/shared
+
 COPY build_files /
 
 # Base Image
