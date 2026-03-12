@@ -72,3 +72,5 @@ systemctl enable ublue-system-setup.service
 systemctl --global enable ublue-user-setup.service
 
 /ctx/install-nvidia.sh
+
+/ctx/image-info.sh
