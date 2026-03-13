@@ -74,3 +74,20 @@ systemctl --global enable ublue-user-setup.service
 /ctx/install-nvidia.sh
 
 /ctx/image-info.sh
+
+# Hide Discover entries by renaming them (allows for easy re-enabling)
+discover_apps=(
+  "org.kde.discover.desktop"
+  "org.kde.discover.flatpak.desktop"
+  "org.kde.discover.notifier.desktop"
+  "org.kde.discover.urlhandler.desktop"
+)
+
+for app in "${discover_apps[@]}"; do
+  if [ -f "/usr/share/applications/${app}" ]; then
+    mv "/usr/share/applications/${app}" "/usr/share/applications/${app}.disabled"
+  fi
+done
+
+# These notifications are useless and confusing
+rm /etc/xdg/autostart/org.kde.discover.notifier.desktop
