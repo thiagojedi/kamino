@@ -73,8 +73,6 @@ systemctl --global enable ublue-user-setup.service
 
 /ctx/install-nvidia.sh
 
-/ctx/image-info.sh
-
 # Hide Discover entries by renaming them (allows for easy re-enabling)
 discover_apps=(
   "org.kde.discover.desktop"
