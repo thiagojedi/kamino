@@ -24,28 +24,13 @@ dnf5 -y install \
 dnf5 -y copr disable ublue-os/packages
 
 dnf5 -y install \
-	alsa-firmware \
 	fastfetch \
 	fish \
-	flatpak-spawn \
 	gcc \
 	git-credential-libsecret \
 	glow \
 	gum \
-	lshw \
-	nvtop \
-	pam-u2f \
-	pam_yubico \
-	pamu2fcfg \
-	plasma-wallpapers-dynamic \
 	ptyxis \
-	vim \
-	ffmpeg \
-	ffmpeg-libs \
-	intel-vaapi-driver \
-	libfdk-aac \
-	libva-utils \
-	pipewire-libs-extra \
 	uld
 
 # TODO: remove me on next flatpak release when preinstall landed in Fedora
@@ -70,8 +55,6 @@ systemctl preset brew-upgrade.timer
 # Fixes from ublue
 systemctl enable ublue-system-setup.service
 systemctl --global enable ublue-user-setup.service
-
-/ctx/install-nvidia.sh
 
 # Hide Discover entries by renaming them (allows for easy re-enabling)
 discover_apps=(
