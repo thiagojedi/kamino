@@ -44,18 +44,6 @@ dnf5 -y --repo=copr:copr.fedorainfracloud.org:ublue-os:flatpak-test install flat
 # Copy system files
 rsync -rvKl /ctx/system_files/shared/ /
 
-# Install flatpaks on system install
-systemctl enable flatpak-preinstall.service
-
-# Setup Homebrew
-systemctl preset brew-setup.service
-systemctl preset brew-update.timer
-systemctl preset brew-upgrade.timer
-
-# Fixes from ublue
-systemctl enable ublue-system-setup.service
-systemctl --global enable ublue-user-setup.service
-
 # Hide Discover entries by renaming them (allows for easy re-enabling)
 discover_apps=(
   "org.kde.discover.desktop"

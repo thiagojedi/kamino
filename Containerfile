@@ -28,7 +28,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/01-packages.sh && \
     /ctx/02-image-info.sh && \
-    /ctx/03-nvidia.sh
+    /ctx/03-nvidia.sh && \
+    /ctx/04-services.sh
 
 ### LINTING
 ## Verify final image and contents are correct.
