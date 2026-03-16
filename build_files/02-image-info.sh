@@ -5,7 +5,7 @@ echo "::group:: ===$(basename "$0")==="
 set -ouex pipefail
 
 IMAGE_VENDOR="thiagojedi"
-IMAGE_NAME="Kamino"
+IMAGE_NAME="kamino"
 IMAGE_PRETTY_NAME="Kamino"
 IMAGE_LIKE="fedora"
 HOME_URL="https://github.com/thiagojedi/kamino"
