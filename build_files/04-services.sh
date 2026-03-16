@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Install flatpaks on system install
 systemctl enable flatpak-preinstall.service
 
