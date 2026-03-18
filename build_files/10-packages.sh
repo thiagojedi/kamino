@@ -24,12 +24,14 @@ dnf5 -y install \
 dnf5 -y copr disable ublue-os/packages
 
 dnf5 -y install \
+	docker-compose \
 	fastfetch \
 	fish \
 	gcc \
 	git-credential-libsecret \
 	glow \
 	gum \
+	podman-docker \
 	ptyxis \
 	uld
 

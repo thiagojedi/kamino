@@ -14,3 +14,5 @@ systemctl --global enable ublue-user-setup.service
 
 # This was disabled on aurora for some reason
 systemctl --global disable bazaar.service
+
+systemctl enable podman.socket
