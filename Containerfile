@@ -1,7 +1,9 @@
+ARG FEDORA_VERSION=44
+
 # Upstream
 FROM ghcr.io/get-aurora-dev/common:latest AS aurora-common
 FROM ghcr.io/ublue-os/brew:latest as brew
-FROM ghcr.io/ublue-os/akmods-nvidia-lts:main-43 as nvidia
+FROM ghcr.io/ublue-os/akmods-nvidia-lts:main-$FEDORA_VERSION as nvidia
 
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
@@ -18,7 +20,7 @@ COPY system_files /system_files/shared
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/kinoite-main:latest
+FROM ghcr.io/ublue-os/kinoite-main:$FEDORA_VERSION
 
 ARG VERSION=local
 
