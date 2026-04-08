@@ -18,7 +18,7 @@ COPY system_files /system_files/shared
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/kinoite-main:latest
+FROM ghcr.io/ublue-os/kinoite-main:43
 
 ARG VERSION=local
 
