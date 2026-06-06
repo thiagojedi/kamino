@@ -32,7 +32,6 @@ dnf5 -y install \
 	glow \
 	gum \
 	podman-docker \
-	ptyxis \
 	uld
 
 # Copy system files
