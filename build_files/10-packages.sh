@@ -32,7 +32,11 @@ dnf5 -y install \
 	glow \
 	gum \
 	podman-docker \
-	uld
+	uld \
+	oxygen-gtk2 \
+	plasma-oxygen \
+	plasma-oxygen-qt5 \
+	plasma-oxygen-qt6
 
 # Copy system files
 rsync -rvKl /ctx/system_files/shared/ /
