@@ -15,7 +15,7 @@ BUG_SUPPORT_URL="$HOME_URL/issues/"
 CODE_NAME="Boba"
 VERSION="${VERSION:-00.00000000}"
 BASE_IMAGE_NAME="latest"
-FEDORA_MAJOR_VERSION=43
+FEDORA_MAJOR_VERSION=45
 
 IMAGE_INFO="/usr/share/ublue-os/image-info.json"
 IMAGE_REF="ostree-unverified-registry:ghcr.io/$IMAGE_VENDOR/$IMAGE_NAME"

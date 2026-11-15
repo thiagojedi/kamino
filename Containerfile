@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION=44
+ARG FEDORA_VERSION=45
 
 # Upstream
 FROM ghcr.io/get-aurora-dev/common:latest AS aurora-common
